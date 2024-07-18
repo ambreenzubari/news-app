@@ -1,9 +1,23 @@
 import React, { Component } from "react";
 import NewsItem from "./NewsItem";
 import Spinner from "./Spinner";
+import PropTypes from 'prop-types'
 
 export class News extends Component {
   articles = [];
+
+  static defaultProps = {
+    country: "us",
+    pageSize: 10, 
+    category: "general",
+  }
+
+  static propTypes = {
+    country: PropTypes.string,
+    pageSize: PropTypes.number,
+    category: PropTypes.string,
+
+  }
   constructor() {
     super();
     this.state = { articles: this.articles, loading: false, page: 1 };
@@ -16,7 +30,7 @@ export class News extends Component {
   getData = async (pageNum) => {
     this.setState({loading:true, articles: []})
     let url =
-      `https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=0c6e9cfd0e914b22be720b3bf2b6bddd&pageSize=${this.props.pageSize}&page=${pageNum}`;
+      `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=0c6e9cfd0e914b22be720b3bf2b6bddd&pageSize=${this.props.pageSize}&page=${pageNum}`;
 
     let data = await fetch(url);
     let parsedData = await data.json();
@@ -37,62 +51,47 @@ export class News extends Component {
   }
   };
   render() {
-    return (
-      <div className="container my-3">
-        <h2 className="text-center">NEWS APP Top headlines</h2>
-        {this.state.loading&&<Spinner/>
-        }
-      {
-        !this.state.loading && 
-        <div className="row">
-        {this.state.articles.map(
-          (article) =>
-    (
-              <div className="col-md-3" key={article.url}>
-                <NewsItem
-                  title={
-                    article.title && article.title != null
-                      ? article.title.slice(0, 45)
-                      : ""
-                  }
-                  description={
-                    article.description && article.description != null
-                      ? article.description.slice(0, 88)
-                      : ""
-                  }
-                  imgUrl={
-                    article.urlToImage && article.urlToImage != ""
-                      ? article.urlToImage
-                      : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKXPGqdC8U6PlNnivO43alr7RvRFoW9umR6g&s"
-                  }
-                  newsUrl={article.url}
-                />
+      return (
+        <div className="container my-3">
+          <h2 className="text-center">Top Headlines</h2>
+          {this.state.loading && <Spinner />}
+          {!this.state.loading && (
+            <div className="row row-cols-1 row-cols-md-3 g-4">
+              {this.state.articles.map((article, index) => (
+                <div className="col" key={index}>
+                  <NewsItem
+                    title={article.title}
+                    description={article.description}
+                    imgUrl={article.urlToImage || "https://about.fb.com/wp-content/uploads/2023/09/GettyImages-686732223.jpg"}
+                    newsUrl={article.url}
+                  />
+                </div>
+              ))}
+            </div>
+          )}
+          {!this.state.loading && (
+            <div className="container mt-3">
+              <div className="d-flex justify-content-between">
+                <button
+                  disabled={this.state.page <= 1}
+                  className="btn btn-dark"
+                  onClick={this.handlePrevClick}
+                >
+                  &larr; Previous
+                </button>
+                <button
+                  disabled={this.state.page + 1 > Math.ceil(this.state.totalArticles / 20)}
+                  className="btn btn-dark"
+                  onClick={this.handleNextClick}
+                >
+                  Next &rarr;
+                </button>
               </div>
-            )
-        )}
-      </div>
-      }
-        <div className="container d-flex justify-content-between">
-          <button
-            disabled={this.state.page <= 1}
-            type="button"
-            class="btn btn-dark"
-            onClick={this.handlePrevClick}
-          >
-            &larr; Previous
-          </button>
-          <button
-            type="button"
-            class="btn btn-dark"
-            onClick={this.handleNextClick}
-            disabled={this.state.page+1>Math.ceil(this.state.totalArticles/20)}
-          >
-            Next &rarr;
-          </button>
+            </div>
+          )}
         </div>
-      </div>
-    );
-  }
+      );
+    }
 }
 
 export default News;
