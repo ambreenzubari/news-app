@@ -18,27 +18,31 @@ export class News extends Component {
     category: PropTypes.string,
 
   }
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = { articles: this.articles, loading: false, page: 1 };
+    document.title = ` ${this.capitalizeFirstLetter(this.props.category)} -  Info Nest `
   }
 
 
+  capitalizeFirstLetter = (string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
   async componentDidMount() {
     this.getData(1)
   }
 
   formatDateString = (dateString) => {
     let givenDate = new Date(dateString);
-    let   today = new Date();
+    let today = new Date();
     let yesterday = new Date();
     yesterday.setDate(today.getDate() - 1);
     let isToday = givenDate.toDateString() === today.toDateString();
     let isYesterday = givenDate.toDateString() === yesterday.toDateString();
 
-    if(isToday) {
+    if (isToday) {
       return "Today";
-    } else if(isYesterday) {
+    } else if (isYesterday) {
       return "Yesterday";
     } else {
       return givenDate.toLocaleDateString(); // or any other date format you prefer
@@ -74,7 +78,7 @@ export class News extends Component {
     return (
 
       <div className="container my-3">
-        <h2 className="text-center">Top Headlines</h2>
+        <h2 className="text-center">News related to {this.capitalizeFirstLetter(this.props.category)}</h2>
         {this.state.loading && <Spinner />}
         {!this.state.loading && (
           <div className="row row-cols-1 row-cols-md-3 g-4">

@@ -15,12 +15,12 @@ export default class App extends Component {
         <Router>
           <NavBar />
           <Routes>
-            <Route exact path="/" element={<News pageSize={9} country="us" category="general" key={"general"}/>} />
+            <Route exact path="/" element={<News pageSize={9} country="in" category="general" key={"general"}/>} />
             {categories.map(category => (
               <Route exact
                 key={category.value}
                 path={`/${category.value}`}
-                element={<News pageSize={9} country="us" key={category.value} category={category.value} />}
+                element={<News pageSize={9} country="in" key={category.value} category={category.value} />}
               />
             ))}
           </Routes>
