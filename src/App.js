@@ -1,14 +1,30 @@
 import React, { Component } from "react";
 import NavBar from "./components/NavBar";
 import News from "./components/News";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes
+} from "react-router-dom";
+import { categories } from "./model/parameters";
 
 export default class App extends Component {
   render() {
     return (
-      
       <div>
-        <NavBar />
-        <News pageSize={10} country='us' category='science'/>
+        <Router>
+          <NavBar />
+          <Routes>
+            <Route exact path="/" element={<News pageSize={9} country="us" category="general" key={"general"}/>} />
+            {categories.map(category => (
+              <Route exact
+                key={category.value}
+                path={`/${category.value}`}
+                element={<News pageSize={9} country="us" key={category.value} category={category.value} />}
+              />
+            ))}
+          </Routes>
+        </Router>
       </div>
     );
   }

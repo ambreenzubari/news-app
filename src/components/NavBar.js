@@ -1,14 +1,16 @@
 import React, { Component } from "react";
 import { categories } from "../model/parameters";
-
+import {
+  Link
+} from "react-router-dom";
 export class NavBar extends Component {
   render() {
     return (
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
         <div className="container-fluid">
-          <a className="navbar-brand" href="#">
+          <Link className="navbar-brand" to="/">
             News App
-          </a>
+          </Link>
           <button
             className="navbar-toggler"
             type="button"
@@ -23,25 +25,18 @@ export class NavBar extends Component {
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item">
-                <a className="nav-link active" aria-current="page" href="/">
+                <Link className="nav-link active" aria-current="page" to="/">
                   Home
-                </a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="/about">
-                  About
-                </a>
+                </Link>
               </li>
 
               {categories.map((category, index) => (
                 <li className="nav-item" key={index}>
-                  <a className="nav-link" href={`/${category.value}`}>
+                  <Link className="nav-link" to={`/${category.value}`}>
                     {category.name}
-                  </a>
+                  </Link>
                 </li>
               ))}
-
-            
             </ul>
           </div>
         </div>
