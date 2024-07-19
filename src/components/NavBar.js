@@ -1,8 +1,19 @@
-import React, { Component } from "react";
+import React, { Component, useContext } from "react";
 import { categories, countries, languages } from "../model/parameters";
 import { Link } from "react-router-dom";
-import "../App.css"
+import "../App.css";
+import AppContext from "../context/AppContext";
+
 export class NavBar extends Component {
+  
+  static contextType = AppContext;
+
+
+  handleCountryChange = (country) => {
+    const { dispatch } = this.context;
+    dispatch({ type: "SET_COUNTRY", payload: country });
+  };
+
   render() {
     return (
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -37,52 +48,55 @@ export class NavBar extends Component {
                 </li>
               ))}
             </ul>
-           
-            <ul className="navbar-nav mb-2 mb-lg-0">
-              <li className="nav-item dropdown">
-                <Link
+
+            <ul className="navbar-nav mb-2 mb-lg-0 me-3">
+              {/* <li className="nav-item dropdown">
+                <a
                   className="nav-link dropdown-toggle"
-                  to="#"
                   id="languagesDropdown"
                   role="button"
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
                 >
                   Languages
-                </Link>
+                </a>
                 <ul className="dropdown-menu dropdown-menu-end dropdown-custom" aria-labelledby="languagesDropdown">
                   {languages.map((language, index) => (
-                    <li><Link className="dropdown-item" to="#">{language.name}</Link></li>
+                    <li key={index}>
+                      <a
+                        className="dropdown-item"
+                        onClick={() => this.handleLanguageChange(language.name)}
+                      >
+                        {language.name}
+                      </a>
+                    </li>
                   ))}
                 </ul>
-              </li>
-              <li className="nav-item dropdown">
-                <Link
+              </li> */}
+              <li className="nav-item dropdown me-3">
+                <a
                   className="nav-link dropdown-toggle"
-                  to="#"
                   id="countriesDropdown"
                   role="button"
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
                 >
                   Countries
-                </Link>
+                </a>
                 <ul className="dropdown-menu dropdown-menu-end dropdown-custom" aria-labelledby="countriesDropdown">
                   {countries.map((country, index) => (
-                    <li><Link className="dropdown-item" to="#">{country.name}</Link></li>
+                    <li key={index}>
+                      <a
+                        className="dropdown-item"
+                        onClick={() => this.handleCountryChange(country.value)}
+                      >
+                        {country.name}
+                      </a>
+                    </li>
                   ))}
                 </ul>
               </li>
             </ul>
-
-            <form className="d-flex ms-3">
-              <input
-                className="form-control me-2"
-                type="search"
-                placeholder="Search"
-                aria-label="Search"
-              />
-            </form>
           </div>
         </div>
       </nav>
