@@ -79,7 +79,7 @@ export class News extends Component {
   };
 
   handleNextClick = () => {
-    if (this.state.page + 1 > Math.ceil(this.state.totalArticles / this.state.pageSize)) {
+    if (this.state.page + 1 > Math.ceil(this.state.totalArticles / this.props.pageSize)) {
 
     } else {
       this.setState({ loading: true })
@@ -121,7 +121,7 @@ export class News extends Component {
                 &larr; Previous
               </button>
               <button
-                disabled={this.state.page + 1 > Math.ceil(this.state.totalArticles / this.state.pageSize)}
+                disabled={this.state.page + 1 > Math.ceil(this.state.totalArticles / this.props.pageSize)}
                 className="btn btn-dark"
                 onClick={this.handleNextClick}
               >
