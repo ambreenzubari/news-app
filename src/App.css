@@ -27,3 +27,19 @@
   top: 19px;
   right: -21px;
 }
+
+.dropdown-custom {
+  max-height: 300px; /* Adjust this value as needed */
+  overflow-y: auto;
+}
+
+/* To ensure the dropdowns stay visible even when scrolling */
+.navbar-nav .dropdown-menu {
+  position: static;
+}
+
+@media (min-width: 992px) {
+  .navbar-nav .dropdown-menu {
+    position: absolute;
+  }
+}
