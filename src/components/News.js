@@ -69,7 +69,6 @@ export class News extends Component {
 
     let data = await fetch(url);
     let parsedData = await data.json();
-    console.log("this.artivles", this.state.articles)
     this.setState({
       articles: this.state.articles.concat(parsedData.articles),
       totalArticles: parsedData.totalResults, loading: false, page: this.state.page + 1
@@ -77,17 +76,23 @@ export class News extends Component {
   };
 
   getData = async (pageNum) => {
+    this.props.setProgress(10)
+
     if (pageNum) {
       this.setState({ page: pageNum })
     }
     this.setState({ loading: true, articles: [] });
-    console.log("HeRE ISIDE GETR DATA")
     let url =
       `https://newsapi.org/v2/top-headlines?country=${this.country}&category=${this.props.category}&apiKey=${this.API_KEY}&pageSize=${this.props.pageSize}&page=${!pageNum ? this.state.page : pageNum}`;
 
     let data = await fetch(url);
+    this.props.setProgress(30)
+
     let parsedData = await data.json();
+    this.props.setProgress(60)
     this.setState({ articles: parsedData.articles, totalArticles: parsedData.totalResults, loading: false, page: this.state.page + 1 });
+    this.props.setProgress(100)
+
   };
 
   render() {
