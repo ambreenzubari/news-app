@@ -3,7 +3,7 @@ import AppReducer from "./AppReducer"
 import AppContext from "./AppContext"
 
 const initialState ={
-    country:     { name: "Austria", value: "at" }
+    country:    { name: "United States", value: "us" },
 }
 
 const AppProvider =({children}) => {

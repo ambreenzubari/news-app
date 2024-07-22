@@ -12,8 +12,8 @@ export class NewsItem extends Component {
         </div>
         <img src={imgUrl} className="card-img-top" alt="News Thumbnail" />
         <div className="card-body">
-          <h5 className="card-title">{title}</h5>
-          <p className="card-text">{description}</p>
+          <h5 className="card-title">{title?title:''}</h5>
+          <p className="card-text">{description?description:''}</p>
           <a href={newsUrl} target="_blank" rel="noopener noreferrer" className="btn btn-dark">
             Read More
           </a>
@@ -29,10 +29,10 @@ export class NewsItem extends Component {
 }
 
 NewsItem.propTypes = {
-  title: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
-  imgUrl: PropTypes.string.isRequired,
-  newsUrl: PropTypes.string.isRequired,
+  title: PropTypes.string,
+  description: PropTypes.string,
+  imgUrl: PropTypes.string,
+  newsUrl: PropTypes.string,
   author: PropTypes.string.isRequired,
   date: PropTypes.string.isRequired,
   source: PropTypes.string.isRequired,

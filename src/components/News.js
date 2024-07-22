@@ -13,9 +13,10 @@ export class News extends Component {
     pageSize: 9,
     category: "general",
   };
-  
-  static contextType = AppContext; // Set the context type
-  country = { name: "Austria", value: "at" };
+
+  static contextType = AppContext;
+  country =   { name: "United States", value: "us" }
+
 
   static propTypes = {
     pageSize: PropTypes.number,
@@ -51,7 +52,7 @@ export class News extends Component {
     } else if (isYesterday) {
       return "Yesterday";
     } else {
-      return givenDate.toLocaleDateString(); // or any other date format you prefer
+      return givenDate.toLocaleDateString();
     }
   };
 
@@ -59,7 +60,7 @@ export class News extends Component {
     const data = this.context;
     if (data.state.country !== this.country) {
       this.country = data.state.country;
-      this.getData(1);
+      this.getData(1, true);
     }
   }
 
@@ -75,15 +76,14 @@ export class News extends Component {
     });
   };
 
-  getData = async (pageNum) => {
+  getData = async (pageNum, isCountry) => {
     this.props.setProgress(10);
     if (pageNum) {
       this.setState({ page: pageNum });
     }
-    this.setState({ loading: true, articles: [] });
+    this.setState({ loading: isCountry?false:true, articles: [] });
     let url =
       `https://newsapi.org/v2/top-headlines?country=${this.country.value}&category=${this.props.category}&apiKey=${this.props.API_KEY}&pageSize=${this.props.pageSize}&page=${!pageNum ? this.state.page : pageNum}`;
-
     let data = await fetch(url);
     this.props.setProgress(30);
 
@@ -97,19 +97,20 @@ export class News extends Component {
     return (
       <div className="container my-3">
         <h2 className="text-center title">
-          News related to {this.capitalizeFirstLetter(this.props.category)} in {this.country.name}
+          News related to <strong>{this.capitalizeFirstLetter(this.props.category)}</strong> in <strong>{this.country.name}</strong>
         </h2>
         {this.state.loading && <Spinner />}
         {
           (
             <InfiniteScroll
               className="infinite-scroll-component"
-              dataLength={this.state.articles.length}
+              style={{ overflow: 'hidden', 'width': '100%', 'paddingTop': '5px' }}
+              dataLength={this.state.articles && this.state.articles.length}
               next={this.fetchMoreData}
-              hasMore={(this.state.articles.length < this.state.totalArticles) && ((this.state.page - 1) * this.props.pageSize < this.state.totalArticles)}
+              hasMore={this.state.articles&&(this.state.articles.length < this.state.totalArticles) && ((this.state.page - 1) * this.props.pageSize < this.state.totalArticles)}
               loader={<Spinner />}
             >
-              <div className="row row-cols-1 row-cols-md-3 g-4">
+              <div className="row row-cols-1 row-cols-md-3 g-4" style={{ 'marginBottom': '30px' }}>
                 {this.state.articles && this.state.articles.map((article, index) => (
                   <div className="col" key={index}>
                     <NewsItem
