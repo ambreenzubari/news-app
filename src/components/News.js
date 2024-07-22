@@ -8,9 +8,6 @@ import InfiniteScroll from "react-infinite-scroll-component";
 export class News extends Component {
   articles = [];
 
-  API_KEY = "0c6e9cfd0e914b22be720b3bf2b6bddd"
-  // API_KEY = "1b2142b3c4db48eca6fd5aff6d0eb63e"
-  // API_KEY = "7ef0c53fc429439ca2d0aeeff03052da"
   static defaultProps = {
     pageSize: 9,
     category: "general",
@@ -65,7 +62,7 @@ export class News extends Component {
 
   fetchMoreData = async () => {
     let url =
-      `https://newsapi.org/v2/top-headlines?country=${this.country}&category=${this.props.category}&apiKey=${this.API_KEY}&pageSize=${this.props.pageSize}&page=${this.state.page}`;
+      `https://newsapi.org/v2/top-headlines?country=${this.country}&category=${this.props.category}&apiKey=${this.props.API_KEY}&pageSize=${this.props.pageSize}&page=${this.state.page}`;
 
     let data = await fetch(url);
     let parsedData = await data.json();
@@ -77,13 +74,12 @@ export class News extends Component {
 
   getData = async (pageNum) => {
     this.props.setProgress(10)
-
     if (pageNum) {
       this.setState({ page: pageNum })
     }
     this.setState({ loading: true, articles: [] });
     let url =
-      `https://newsapi.org/v2/top-headlines?country=${this.country}&category=${this.props.category}&apiKey=${this.API_KEY}&pageSize=${this.props.pageSize}&page=${!pageNum ? this.state.page : pageNum}`;
+      `https://newsapi.org/v2/top-headlines?country=${this.country}&category=${this.props.category}&apiKey=${this.props.API_KEY}&pageSize=${this.props.pageSize}&page=${!pageNum ? this.state.page : pageNum}`;
 
     let data = await fetch(url);
     this.props.setProgress(30)

@@ -12,6 +12,7 @@ import { categories } from "./model/parameters";
 
 export default class App extends Component {
 
+  API_KEY = process.env.REACT_APP_NEWS_API_KEY
   state = {
     progress: 0
   }
@@ -19,6 +20,7 @@ export default class App extends Component {
   setProgress=(progress) => {
     this.setState({ progress:progress });
   }
+
   render() {
     return (
       <div>
@@ -30,12 +32,12 @@ export default class App extends Component {
             progress={this.state.progress}
           />
           <Routes>
-            <Route exact path="/" element={<News setProgress={this.setProgress} pageSize={10} category="general" key={"general"} />} />
+            <Route exact path="/" element={<News API_KEY={this.API_KEY} setProgress={this.setProgress} pageSize={10} category="general" key={"general"} />} />
             {categories.map(category => (
               <Route exact
                 key={category.value}
                 path={`/${category.value}`}
-                element={<News pageSize={10} key={category.value} setProgress={this.setProgress} category={category.value} />}
+                element={<News API_KEY={this.API_KEY} pageSize={10} key={category.value} setProgress={this.setProgress} category={category.value} />}
               />
             ))}
           </Routes>
