@@ -5,7 +5,7 @@ import "../App.css";
 import AppContext from "../context/AppContext";
 
 export class NavBar extends Component {
-  
+
   static contextType = AppContext;
 
 
@@ -16,7 +16,7 @@ export class NavBar extends Component {
 
   render() {
     return (
-      <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+      <nav className="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
         <div className="container-fluid">
           <Link className="navbar-brand" to="/">
             Info Nest
@@ -88,7 +88,7 @@ export class NavBar extends Component {
                     <li key={index}>
                       <a
                         className="dropdown-item"
-                        onClick={() => this.handleCountryChange(country.value)}
+                        onClick={() => this.handleCountryChange(country)}
                       >
                         {country.name}
                       </a>
@@ -96,7 +96,10 @@ export class NavBar extends Component {
                   ))}
                 </ul>
               </li>
+
+              
             </ul>
+           
           </div>
         </div>
       </nav>
