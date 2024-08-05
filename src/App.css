@@ -1,3 +1,159 @@
+/* Custom styles for the navbar */
+/* .navbar {
+  transition: background-color 0.3s ease;
+}
+
+.navbar-dark .navbar-nav .nav-link {
+  color: #ffffff;
+}
+
+.navbar-dark .navbar-nav .nav-link:hover {
+  color: #f8f9fa;
+}
+
+.navbar-dark .dropdown-menu {
+  background-color: #343a40;
+  max-height: 300px; 
+  overflow-y: auto; 
+}
+
+.navbar-dark .dropdown-item {
+  color: #ffffff;
+}
+
+.navbar-dark .dropdown-item:hover {
+  background-color: #495057;
+}
+
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='currentColor'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M4 6h16M4 12h16m-7 6h7' /%3E%3C/svg%3E");
+}
+
+.navbar.shadow-sm {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.dropdown-menu {
+  border-radius: 0.25rem;
+  position: relative;
+}
+
+.dropdown-menu .form-control {
+  border-radius: 0.25rem;
+  border: 1px solid #495057;
+} */
+
+
+/* App.css */
+
+/* App.css */
+
+/* App.css */
+
+/* Navbar custom styles */
+/* App.css */
+
+/* Navbar */
+.navbar {
+  background-color: #343a40; /* Dark background color */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  padding: 0.5rem 1rem; /* Padding for spacing */
+  width: 100%; /* Full width */
+  z-index: 1030; /* Ensure navbar is above other content */
+}
+
+.category-bk{
+  background: #21a1f1;
+  border-radius: 7px;
+  padding: 5px;
+}
+/* Navbar Brand */
+.navbar-brand {
+  font-size: 1.8rem;
+  color: #61dafb; /* Light color for brand */
+  font-weight: bold;
+  cursor: pointer;
+  transition: color 0.3s ease; /* Smooth transition for hover */
+}
+
+.navbar-brand:hover {
+  color: #21a1f1; /* Highlight color on hover */
+}
+
+/* Navbar Links */
+.nav-link {
+  color: #f8f9fa; /* Light color for links */
+  font-size: 1rem; /* Increase font size for readability */
+  transition: color 0.3s ease; /* Smooth transition for hover */
+}
+
+.nav-link.active,
+.nav-link:hover {
+  color: #61dafb; /* Highlight color for active and hover */
+}
+
+/* Dropdown Menu */
+.dropdown-menu {
+  border-radius: 0.5rem;
+  background-color: #343a40; /* Darker background for dropdown */
+  border: none; /* Remove border */
+  max-height: 300px; /* Set maximum height */
+  padding: 4px;
+  overflow-y: auto; /* Add vertical scrollbar if needed */
+}
+
+/* Dropdown Items */
+.dropdown-item {
+  color: #f8f9fa; /* Light color for dropdown items */
+}
+
+.dropdown-item:hover {
+  background-color: #21a1f1; /* Grey background on hover */
+  color: #ffffff; /* White color for text on hover */
+}
+
+
+/* Navbar Toggler */
+.navbar-toggler {
+  border-color: #61dafb; /* Border color for toggler */
+}
+
+.navbar-toggler-icon {
+  background-image: url('assets/menu.png'); /* Custom icon */
+}
+
+/* Ensure navbar items are properly aligned on smaller screens */
+@media (max-width: 1100px) {
+  .navbar-nav {
+    text-align: center; /* Center-align items in smaller screens */
+  }
+}
+
+@media (max-width: 768px) {
+  .dropdown-menu {
+    position: static; /* Ensure dropdown menu is displayed properly */
+    float: none;
+    box-shadow: none;
+  }
+
+  .form-control {
+    width: 100%; /* Make search input full-width */
+  }
+}
+
+@media (max-width: 576px) {
+  .navbar-brand {
+    font-size: 1.25rem; /* Adjust font size for smaller screens */
+  }
+
+  .navbar-nav {
+    font-size: 0.875rem; /* Adjust font size for navbar items */
+  }
+}
+
+
+/*  */
+
 .ribbon {
   position: absolute;
   /* top: 10px; */
@@ -120,6 +276,19 @@
   background-color: #0056b3;
 }
 
+.source-icon {
+  position: absolute;
+  top: 10px; /* Adjust as needed */
+  right: 10px; /* Adjust as needed */
+  width: 32px; /* Adjust size to fit design */
+  height: 32px; /* Adjust size to fit design */
+  object-fit: contain;
+  border-radius: 50%; /* Circular icon */
+  border: 2px solid #fff; /* Subtle border for clarity */
+  background-color: #fff; /* Ensure visibility against card */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Light shadow for depth */
+}
+
 @media (max-width: 576px) {
   .card-img-top {
     height: 150px;
@@ -136,4 +305,16 @@
   .card-text {
     font-size: 0.9rem;
   }
+
+
+
+  
+  /*  */
+
+
+  
 }
+
+
+/*  */
+ 

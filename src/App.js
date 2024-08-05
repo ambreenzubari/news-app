@@ -32,7 +32,7 @@ export default class App extends Component {
             progress={this.state.progress}
           />
           <Routes>
-            <Route exact path="/" element={<News API_KEY={this.API_KEY} setProgress={this.setProgress} pageSize={10} category="general" key={"general"} />} />
+            <Route exact path="/" element={<News API_KEY={this.API_KEY} setProgress={this.setProgress} pageSize={10} category="business" key={"business"} />} />
             {categories.map(category => (
               <Route exact
                 key={category.value}
