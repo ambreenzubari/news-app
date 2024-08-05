@@ -134,8 +134,13 @@
     position: static; /* Ensure dropdown menu is displayed properly */
     float: none;
     box-shadow: none;
+
   }
 
+  .category-bk{
+    width: 100%;
+    text-align: center;
+  }
   .form-control {
     width: 100%; /* Make search input full-width */
   }

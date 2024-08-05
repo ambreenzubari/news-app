@@ -157,12 +157,12 @@ export class NavBar extends Component {
             </ul>
 
             {/* Display Selected Category and Country */}
-            <div className="navbar-text ms-auto d-flex align-items-center text-light">
-              <div className="me-4 category-bk">
+            {/* <div className="navbar-text ms-auto d-flex align-items-center text-light"> */}
+              <div className="me-4 category-bk navbar-text text-light text-align-center">
                {selectedCategory}
               </div>
              
-            </div>
+            {/* </div> */}
 
             {/* Search Input in Navbar */}
             {/* <form className="d-flex ms-3">
