@@ -27,7 +27,7 @@ export class NavBar extends Component {
   getCategoryFromPath(pathname) {
     // Extract the category from the path
     const category = pathname.split("/")[1];
-    return categories.find(cat => cat.value === category)?.name || "Category";
+    return categories.find((cat) => cat.value === category)?.name || "Category";
   }
 
   handleCountryChange = (country) => {
@@ -43,6 +43,7 @@ export class NavBar extends Component {
 
   handleSearchChange = (event) => {
     const search = event.target.value.toLowerCase();
+    // console.log("search", search)
     this.setState({
       search,
       filteredCountries: countries.filter((country) =>
@@ -55,13 +56,34 @@ export class NavBar extends Component {
   componentDidUpdate(prevProps) {
     // Update the selected category when the location changes
     if (prevProps.location.pathname !== this.props.location.pathname) {
-      this.setState({ selectedCategory: this.getCategoryFromPath(this.props.location.pathname) });
+      this.setState({
+        selectedCategory: this.getCategoryFromPath(
+          this.props.location.pathname
+        ),
+      });
     }
   }
 
+  onSearchClick = (event) => {
+    event.preventDefault(); // Prevent form submission
+    const { dispatch } = this.context;
+    console.log("onSearchClick", this.state.search);
+    if(this.state.search.length>0){
+      dispatch({ type: "SET_QUERY", payload: this.state.search });
+    }else{
+      dispatch({ type: "SET_QUERY", payload: 'CLEAR' });
+    }
+    // Handle search logic here
+  };
+
   render() {
-    const { search, filteredCountries, selectedCountry, selectedCategory, activeIndex } =
-      this.state;
+    const {
+      search,
+      filteredCountries,
+      selectedCountry,
+      selectedCategory,
+      activeIndex,
+    } = this.state;
 
     return (
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
@@ -141,7 +163,9 @@ export class NavBar extends Component {
                   {filteredCountries.map((country, index) => (
                     <li key={index}>
                       <Link
-                        className={`dropdown-item${activeIndex === index ? " active" : ""}`}
+                        className={`dropdown-item${
+                          activeIndex === index ? " active" : ""
+                        }`}
                         to="#"
                         onClick={() => this.handleCountryChange(country)}
                         onMouseEnter={() =>
@@ -157,12 +181,9 @@ export class NavBar extends Component {
             </ul>
 
             {/* Display Selected Category and Country */}
-            {/* <div className="navbar-text ms-auto d-flex align-items-center text-light"> */}
-              <div className="me-4 category-bk navbar-text text-light text-align-center">
-               {selectedCategory}
-              </div>
-             
-            {/* </div> */}
+            <div className="me-4 category-bk navbar-text text-light text-align-center">
+              {selectedCategory}
+            </div>
 
             {/* Search Input in Navbar */}
             <form className="d-flex ms-3">
@@ -170,14 +191,12 @@ export class NavBar extends Component {
                 type="search"
                 className="form-control me-2"
                 placeholder="Search..."
-                aria-label="Search"
                 value={search}
                 onChange={this.handleSearchChange}
               />
               <button
                 className="btn btn-outline-light"
-                type="submit"
-                onClick={(e) => e.preventDefault()} // Prevent form submission
+                onClick={this.onSearchClick} // Prevent form submission
               >
                 Search
               </button>

@@ -9,12 +9,12 @@ import "../App.css";
 export class News extends Component {
   static defaultProps = {
     pageSize: 9,
-    category: "business",
+    category: "",
   };
 
   static contextType = AppContext;
   country = { name: "United States", value: "us" };
-
+  queryText = "";
   static propTypes = {
     pageSize: PropTypes.number,
     category: PropTypes.string,
@@ -66,6 +66,8 @@ export class News extends Component {
 
   async componentDidMount() {
     let data = this.context;
+    console.log("DAta", data);
+
     this.country = data.state.country;
     await this.getData();
   }
@@ -92,12 +94,36 @@ export class News extends Component {
     if (data.state.country !== this.country) {
       this.country = data.state.country;
       this.getData(1, true);
+    } else if (
+      data.state.query &&
+      data.state.query.length > 0 &&
+      data.state.query != this.queryText
+    ) {
+      if (data.state.query == "CLEAR") {
+        this.queryText = "";
+        const { dispatch } = this.context;
+        dispatch({ type: "SET_QUERY", payload: this.state.search });
+
+
+        
+      }else{
+        this.queryText = data.state.query;
+      }
+      console.log("DATA---- in query", data);
+
+      this.getData(data.state.query);
     }
   }
 
   fetchMoreData = async () => {
     const { page, articles } = this.state;
-    const url = `https://newsdata.io/api/1/latest?apikey=${this.props.API_KEY}&country=${this.country.value}&image=1&category=${this.props.category}&page=${this.state.nextPage}`;
+    let url = `https://newsdata.io/api/1/latest?apikey=${this.props.API_KEY}&country=${this.country.value}&image=1&page=${this.state.nextPage}`;
+    if (this.props.category) {
+      url += `&category=${this.props.category}`;
+    }
+    if (this.queryText.length > 0) {
+      url += `&q=${this.queryText}`;
+    }
     let response = await fetch(url);
     let parsedData = await response.json();
     if (parsedData.status === "success") {
@@ -114,10 +140,16 @@ export class News extends Component {
     }
   };
 
-  getData = async (pageNum = 1, isCountry = false) => {
+  getData = async () => {
     this.props.setProgress(10);
     this.setState({ loading: true, noNewsFound: false });
-    const url = `https://newsdata.io/api/1/latest?apikey=${this.props.API_KEY}&image=1&country=${this.country.value}&category=${this.props.category}`;
+    let url = `https://newsdata.io/api/1/latest?apikey=${this.props.API_KEY}&image=1&country=${this.country.value}`;
+    if (this.props.category) {
+      url += `&category=${this.props.category}`;
+    }
+    if (this.queryText.length > 0) {
+      url += `&q=${this.queryText}`;
+    }
 
     let response = await fetch(url);
     this.props.setProgress(30);
@@ -130,7 +162,6 @@ export class News extends Component {
         articles: parsedData.results,
         totalArticles: parsedData.totalResults,
         loading: false,
-        page: pageNum,
         nextPage: parsedData.nextPage,
         noNewsFound: parsedData.results.length === 0,
       });
@@ -139,6 +170,7 @@ export class News extends Component {
     }
     this.props.setProgress(100);
   };
+
 
   setCarouselImages = (images) => {
     // Shuffle articles and pick the first 3 images
@@ -157,52 +189,72 @@ export class News extends Component {
   render() {
     const { articles, loading, noNewsFound, carouselImages, carouselTexts } =
       this.state;
-    console.log("CarouselTexts", carouselTexts);
     return (
       <div className="my-3">
-     <div className="carousel-wrapper">
-        <h2 className="text-center">Catch Up With The Latest News</h2>
-        <div id="carouselExampleControls" className="carousel slide" data-bs-ride="carousel">
-          <div className="carousel-inner">
-            {carouselImages.map((image, index) => (
-              <div className={`carousel-item ${index === 0 ? "active" : ""}`} key={index}>
-                <img src={image} className="d-block w-100" alt={`Slide ${index + 1}`} />
+        <div className="carousel-wrapper">
+          <div
+            id="carouselExampleControls"
+            className="carousel slide"
+            data-bs-ride="carousel"
+          >
+            <div className="carousel-inner">
+              {carouselImages.map((image, index) => (
                 <div
-                  className="carousel-caption d-none d-md-block"
-                  style={{
-                    backgroundColor: carouselTexts[index]?.bgColor || 'rgba(0, 0, 0, 0.5)',
-                    color: carouselTexts[index]?.color || 'white'
-                  }}
+                  className={`carousel-item ${index === 0 ? "active" : ""}`}
+                  key={index}
                 >
-                  <h5>{carouselTexts[index]?.text || 'Default Text'}</h5>
+                  <img
+                    src={image}
+                    className="d-block w-100"
+                    alt={`Slide ${index + 1}`}
+                  />
+                  <div
+                    className="carousel-caption d-none d-md-block"
+                    style={{
+                      backgroundColor:
+                        carouselTexts[index]?.bgColor || "rgba(0, 0, 0, 0.5)",
+                      color: carouselTexts[index]?.color || "white",
+                    }}
+                  >
+                    <h5>{carouselTexts[index]?.text || "Default Text"}</h5>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
+            <button
+              className="carousel-control-prev"
+              type="button"
+              data-bs-target="#carouselExampleControls"
+              data-bs-slide="prev"
+            >
+              <span
+                className="carousel-control-prev-icon"
+                aria-hidden="true"
+              ></span>
+              <span className="visually-hidden">Previous</span>
+            </button>
+            <button
+              className="carousel-control-next"
+              type="button"
+              data-bs-target="#carouselExampleControls"
+              data-bs-slide="next"
+            >
+              <span
+                className="carousel-control-next-icon"
+                aria-hidden="true"
+              ></span>
+              <span className="visually-hidden">Next</span>
+            </button>
           </div>
-          <button
-            className="carousel-control-prev"
-            type="button"
-            data-bs-target="#carouselExampleControls"
-            data-bs-slide="prev"
-          >
-            <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span className="visually-hidden">Previous</span>
-          </button>
-          <button
-            className="carousel-control-next"
-            type="button"
-            data-bs-target="#carouselExampleControls"
-            data-bs-slide="next"
-          >
-            <span className="carousel-control-next-icon" aria-hidden="true"></span>
-            <span className="visually-hidden">Next</span>
-          </button>
         </div>
-      </div>
         <div className="container">
           <h2 className="text-center title">
             News related to{" "}
-            <strong>{this.capitalizeFirstLetter(this.props.category)}</strong>{" "}
+            <strong>
+              {this.props.category.length > 0
+                ? this.capitalizeFirstLetter(this.props.category)
+                : "All Categories"}
+            </strong>{" "}
             in <strong>{this.country.name}</strong>
           </h2>
 
@@ -224,7 +276,7 @@ export class News extends Component {
               loader={<Spinner />}
             >
               <div
-                className="row row-cols-1 row-cols-md-3 g-4"
+                className="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-3 g-4"
                 style={{ marginBottom: "30px" }}
               >
                 {articles.map((article, index) => (

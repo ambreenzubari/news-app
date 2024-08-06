@@ -4,6 +4,7 @@ import AppContext from "./AppContext"
 
 const initialState ={
     country:    { name: "United States", value: "us" },
+    query:""
 }
 
 const AppProvider =({children}) => {

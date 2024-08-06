@@ -345,6 +345,7 @@
 }
 /* Ensure the carousel spans full width and has a fixed height */
 .carousel-wrapper {
+  margin-top: 68px;
   position: relative;
 }
 
@@ -399,6 +400,7 @@
   text-align: center;
   max-width: 80%; /* Adjust max-width as needed */
 }
+.news-container{}
 
 /* Professional Font Styling */
 .carousel-caption h5 {

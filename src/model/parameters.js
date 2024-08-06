@@ -10,6 +10,7 @@
 
 
 export const categories = [
+  { name: "All Categories", value: "" },
   { name: "Business", value: "business" },
   { name: "Crime", value: "crime" },
   { name: "Domestic", value: "domestic" },
@@ -104,6 +105,7 @@ export const languages = [
 
 
 export const countries = [
+  
   { name: "Afghanistan", value: "af" },
   { name: "Albania", value: "al" },
   { name: "Algeria", value: "dz" },
