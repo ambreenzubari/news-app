@@ -247,7 +247,7 @@ export class News extends Component {
             </button>
           </div>
         </div>
-        <div className="container">
+        <div className="" style={{paddingLeft:'70px', paddingRight:'70px'}}>
           <h2 className="text-center title">
             News related to{" "}
             <strong>
@@ -276,7 +276,7 @@ export class News extends Component {
               loader={<Spinner />}
             >
               <div
-                className="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-3 g-4"
+                className="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4"
                 style={{ marginBottom: "30px" }}
               >
                 {articles.map((article, index) => (

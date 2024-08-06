@@ -43,7 +43,6 @@ export class NavBar extends Component {
 
   handleSearchChange = (event) => {
     const search = event.target.value.toLowerCase();
-    // console.log("search", search)
     this.setState({
       search,
       filteredCountries: countries.filter((country) =>
@@ -186,7 +185,7 @@ export class NavBar extends Component {
             </div>
 
             {/* Search Input in Navbar */}
-            <form className="d-flex ms-3">
+            <form className="d-flex my-2">
               <input
                 type="search"
                 className="form-control me-2"
