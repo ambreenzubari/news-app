@@ -207,7 +207,7 @@
 
 
 .title{
-  margin-top: 80px;
+  margin-top: 30px;
 }
 
 ::ng-deep .infinite-scroll-component {
@@ -322,4 +322,24 @@
 
 
 /*  */
- 
+ /* Ensure the carousel spans full width and has a fixed height */
+.carousel {
+  width: 100%;
+  height: 400px; 
+  overflow: hidden;
+  /* margin-top: 10px !important; */
+}
+
+.carousel-inner {
+  height: 100%;
+}
+
+.carousel-item img {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+}
+
+.carousel-control-prev, .carousel-control-next {
+  filter: invert(1); /* Optional: Inverts carousel control colors for better visibility on dark images */
+}

@@ -165,7 +165,7 @@ export class NavBar extends Component {
             {/* </div> */}
 
             {/* Search Input in Navbar */}
-            {/* <form className="d-flex ms-3">
+            <form className="d-flex ms-3">
               <input
                 type="search"
                 className="form-control me-2"
@@ -181,7 +181,7 @@ export class NavBar extends Component {
               >
                 Search
               </button>
-            </form> */}
+            </form>
           </div>
         </div>
       </nav>

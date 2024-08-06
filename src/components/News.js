@@ -30,7 +30,8 @@ export class News extends Component {
       page: 1,
       totalArticles: 0,
       nextPage: 0,
-      noNewsFound: false, // New state to handle no news found
+      noNewsFound: false,
+      carouselImages: [],
     };
     document.title = ` ${this.capitalizeFirstLetter(
       this.props.category
@@ -44,7 +45,7 @@ export class News extends Component {
   async componentDidMount() {
     let data = this.context;
     this.country = data.state.country;
-    this.getData();
+    await this.getData();
   }
 
   formatDateString = (dateString) => {
@@ -83,7 +84,8 @@ export class News extends Component {
         totalArticles: parsedData.totalResults,
         loading: false,
         page: page + 1,
-        noNewsFound: parsedData.results.length === 0 && this.state.articles.length === 0, // Check if no news found
+        noNewsFound:
+          parsedData.results.length === 0 && this.state.articles.length === 0,
       });
     } else {
       console.error("Error fetching data:", parsedData.results.message);
@@ -92,7 +94,7 @@ export class News extends Component {
 
   getData = async (pageNum = 1, isCountry = false) => {
     this.props.setProgress(10);
-    this.setState({ loading: true, noNewsFound: false }); // Reset noNewsFound state
+    this.setState({ loading: true, noNewsFound: false });
     const url = `https://newsdata.io/api/1/latest?apikey=${this.props.API_KEY}&image=1&country=${this.country.value}&category=${this.props.category}`;
 
     let response = await fetch(url);
@@ -100,15 +102,15 @@ export class News extends Component {
     let parsedData = await response.json();
     this.props.setProgress(60);
 
-    
     if (parsedData.status === "success") {
+      this.setCarouselImages(parsedData.results);
       this.setState({
         articles: parsedData.results,
         totalArticles: parsedData.totalResults,
         loading: false,
         page: pageNum,
         nextPage: parsedData.nextPage,
-        noNewsFound: parsedData.results.length === 0, // Check if no news found
+        noNewsFound: parsedData.results.length === 0,
       });
     } else {
       console.error("Error fetching data:", parsedData.results.message);
@@ -116,56 +118,120 @@ export class News extends Component {
     this.props.setProgress(100);
   };
 
+  setCarouselImages = (images) => {
+    // Shuffle articles and pick the first 3 images
+    const shuffledArticles = images.sort(() => 0.5 - Math.random());
+    const carouselImages = shuffledArticles
+      .slice(0, 3)
+      .map(
+        (article) =>
+          article.image_url ||
+          "https://via.placeholder.com/800x400?text=Default+Image"
+      );
+    this.setState({ carouselImages });
+  };
+
   render() {
-    const { articles, loading, noNewsFound } = this.state;
+    const { articles, loading, noNewsFound, carouselImages } = this.state;
 
     return (
-      <div className="container my-3">
-        <h2 className="text-center title">
-          News related to{" "}
-          <strong>
-            {this.capitalizeFirstLetter(this.props.category)}
-          </strong> in <strong>{this.country.name}</strong>
-        </h2>
-
-       
-        {loading && !noNewsFound && <Spinner />}
-        {noNewsFound && !loading && (
-          <div className="alert alert-info text-center">
-            No news found for <strong>{this.props.category}</strong> category.
-          </div>
-        )}
-        {articles&&<InfiniteScroll
-          className="infinite-scroll-component"
-          style={{ overflow: "hidden", width: "100%", paddingTop: "5px" }}
-          dataLength={articles.length}
-          next={this.fetchMoreData}
-          hasMore={articles.length < this.state.totalArticles && !noNewsFound}
-          loader={<Spinner />}
-        >
+      <div className=" my-3">
+        <div className="carousel-wrapper">
           <div
-            className="row row-cols-1 row-cols-md-3 g-4"
-            style={{ marginBottom: "30px" }}
+            id="carouselExampleControls"
+            className="carousel slide"
+            data-bs-ride="carousel"
           >
-            {articles&&articles.map((article, index) => (
-              <div className="col" key={index}>
-                <NewsItem
-                  title={article.title}
-                  description={article.description}
-                  imgUrl={
-                    article.image_url ||
-                    "https://about.fb.com/wp-content/uploads/2023/09/GettyImages-686732223.jpg"
-                  }
-                  newsUrl={article.link}
-                  source={article.source_id}
-                  author={!article.author ? "Unknown" : article.author}
-                  source_icon={article.source_icon}
-                  date={this.formatDateString(article.pubDate)}
-                />
-              </div>
-            ))}
+            <div className="carousel-inner">
+              {carouselImages.map((image, index) => (
+                <div
+                  className={`carousel-item ${index === 0 ? "active" : ""}`}
+                  key={index}
+                >
+                  <img
+                    src={image}
+                    className="d-block w-100"
+                    alt={`Slide ${index + 1}`}
+                  />
+                </div>
+              ))}
+            </div>
+            <button
+              className="carousel-control-prev"
+              type="button"
+              data-bs-target="#carouselExampleControls"
+              data-bs-slide="prev"
+            >
+              <span
+                className="carousel-control-prev-icon"
+                aria-hidden="true"
+              ></span>
+              <span className="visually-hidden">Previous</span>
+            </button>
+            <button
+              className="carousel-control-next"
+              type="button"
+              data-bs-target="#carouselExampleControls"
+              data-bs-slide="next"
+            >
+              <span
+                className="carousel-control-next-icon"
+                aria-hidden="true"
+              ></span>
+              <span className="visually-hidden">Next</span>
+            </button>
           </div>
-        </InfiniteScroll>}
+        </div>
+
+        <div className="container">
+          <h2 className="text-center title">
+            News related to{" "}
+            <strong>{this.capitalizeFirstLetter(this.props.category)}</strong>{" "}
+            in <strong>{this.country.name}</strong>
+          </h2>
+
+          {loading && !noNewsFound && <Spinner />}
+          {noNewsFound && !loading && (
+            <div className="alert alert-info text-center">
+              No news found for <strong>{this.props.category}</strong> category.
+            </div>
+          )}
+          {articles && (
+            <InfiniteScroll
+              className="infinite-scroll-component"
+              style={{ overflow: "hidden", width: "100%", paddingTop: "5px" }}
+              dataLength={articles.length}
+              next={this.fetchMoreData}
+              hasMore={
+                articles.length < this.state.totalArticles && !noNewsFound
+              }
+              loader={<Spinner />}
+            >
+              <div
+                className="row row-cols-1 row-cols-md-3 g-4"
+                style={{ marginBottom: "30px" }}
+              >
+                {articles.map((article, index) => (
+                  <div className="col" key={index}>
+                    <NewsItem
+                      title={article.title}
+                      description={article.description}
+                      imgUrl={
+                        article.image_url ||
+                        "https://about.fb.com/wp-content/uploads/2023/09/GettyImages-686732223.jpg"
+                      }
+                      newsUrl={article.link}
+                      source={article.source_id}
+                      author={!article.author ? "Unknown" : article.author}
+                      source_icon={article.source_icon}
+                      date={this.formatDateString(article.pubDate)}
+                    />
+                  </div>
+                ))}
+              </div>
+            </InfiniteScroll>
+          )}
+        </div>
       </div>
     );
   }
