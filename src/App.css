@@ -343,3 +343,128 @@
 .carousel-control-prev, .carousel-control-next {
   filter: invert(1); /* Optional: Inverts carousel control colors for better visibility on dark images */
 }
+/* Ensure the carousel spans full width and has a fixed height */
+.carousel-wrapper {
+  position: relative;
+}
+
+/* Style for the text overlay */
+.carousel-caption {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  height: fit-content;
+  max-width: 90%;
+  background: rgba(0, 0, 0, 0.6); /* Default background with opacity */
+}
+
+/* Override inline styles in the component */
+.carousel-item .carousel-caption {
+  background: inherit; /* Inherit background from inline styles */
+}
+
+
+/* Responsive design for mobile view */
+@media (max-width: 768px) {
+  .carousel-caption {
+    font-size: 14px; /* Adjust font size for smaller screens */
+    padding: 15px; /* Adjust padding for smaller screens */
+  }
+}
+
+@media (max-width: 576px) {
+  .carousel-caption {
+    font-size: 12px; /* Further adjust font size for very small screens */
+    padding: 10px; /* Further adjust padding for very small screens */
+  }
+}
+
+
+
+/* Carousel Caption */
+.carousel-caption {
+  position: absolute;
+  bottom: 20px; /* Position caption at the bottom */
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  color: #fff; /* White text color */
+  padding: 15px;
+  border-radius: 8px;
+  text-align: center;
+  max-width: 80%; /* Adjust max-width as needed */
+}
+
+/* Professional Font Styling */
+.carousel-caption h5 {
+  font-family: 'Helvetica Neue', Arial, sans-serif; /* Modern font */
+  font-size: 24px; /* Adjust font size */
+  font-weight: bold; /* Bold font for emphasis */
+  margin: 0; /* Remove default margin */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .carousel-caption h5 {
+    font-size: 18px; /* Adjust font size for smaller screens */
+    padding: 10px; /* Adjust padding */
+  }
+}
+
+@media (max-width: 576px) {
+  .carousel-caption h5 {
+    font-size: 16px; /* Further adjust font size */
+    padding: 8px; /* Further adjust padding */
+  }
+}
+
+/* Carousel Controls */
+.carousel-control-prev, .carousel-control-next {
+  filter: invert(1); /* Invert control colors for better visibility */
+}
+.carousel-control-prev,
+.carousel-control-next {
+  width: 50px; /* Adjust the width as needed */
+  height: 50px; /* Adjust the height as needed */
+  background-color: rgba(0, 0, 0, 0.6); /* Slightly lighter semi-transparent background */
+  border-radius: 50%; /* Fully rounded buttons */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10; /* Ensure buttons are on top */
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.carousel-control-prev:hover,
+.carousel-control-next:hover {
+  background-color: rgba(0, 0, 0, 0.9); /* Darker background on hover */
+  transform: scale(1.1); /* Slightly enlarge on hover */
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  width: 24px; /* Adjust icon size */
+  height: 24px; /* Adjust icon size */
+  background-size: 100%, 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.carousel-control-prev-icon {
+  background-image: url('data:image/svg+xml;charset=utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="white" class="bi bi-chevron-left" viewBox="0 0 16 16"><path d="M11.293 1.293a1 1 0 0 1 1.414 1.414L8.414 7.5l4.293 4.293a1 1 0 0 1-1.414 1.414l-5-5a1 1 0 0 1 0-1.414l5-5z"/></svg>');
+}
+
+.carousel-control-next-icon {
+  background-image: url('data:image/svg+xml;charset=utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="white" class="bi bi-chevron-right" viewBox="0 0 16 16"><path d="M4.707 1.293a1 1 0 0 0-1.414 1.414L7.586 7.5 3.293 11.793a1 1 0 0 0 1.414 1.414l5-5a1 1 0 0 0 0-1.414l-5-5z"/></svg>');
+}

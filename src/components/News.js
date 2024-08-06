@@ -32,6 +32,28 @@ export class News extends Component {
       nextPage: 0,
       noNewsFound: false,
       carouselImages: [],
+      carouselTexts: [
+        {
+          text: "Stay informed with news tailored to your country.",
+          color: "#ffffff",
+          bgColor: "rgba(0, 123, 255, 0.6)", // Smooth blue gradient
+        },
+        {
+          text: "Explore news across diverse categories tailored to your interests.",
+          color: "#ffffff",
+          bgColor: "rgba(40, 167, 69, 0.6)", // Soft green gradient
+        },
+        {
+          text: "Seamlessly browse through endless news articles with infinite scrolling.",
+          color: "#ffffff",
+          bgColor: "rgba(23, 162, 184, 0.6)", // Calming teal gradient
+        },
+        {
+          text: "Enjoy a flawless reading experience on any device, thanks to our responsive design.",
+          color: "#ffffff",
+          bgColor: "rgba(108, 117, 125, 0.6)", // Subtle gray gradient
+        },
+      ],
     };
     document.title = ` ${this.capitalizeFirstLetter(
       this.props.category
@@ -122,67 +144,61 @@ export class News extends Component {
     // Shuffle articles and pick the first 3 images
     const shuffledArticles = images.sort(() => 0.5 - Math.random());
     const carouselImages = shuffledArticles
-      .slice(0, 3)
+      .slice(0, 4)
       .map(
         (article) =>
           article.image_url ||
           "https://via.placeholder.com/800x400?text=Default+Image"
       );
+
     this.setState({ carouselImages });
   };
 
   render() {
-    const { articles, loading, noNewsFound, carouselImages } = this.state;
-
+    const { articles, loading, noNewsFound, carouselImages, carouselTexts } =
+      this.state;
+    console.log("CarouselTexts", carouselTexts);
     return (
-      <div className=" my-3">
-        <div className="carousel-wrapper">
-          <div
-            id="carouselExampleControls"
-            className="carousel slide"
-            data-bs-ride="carousel"
-          >
-            <div className="carousel-inner">
-              {carouselImages.map((image, index) => (
+      <div className="my-3">
+     <div className="carousel-wrapper">
+        <h2 className="text-center">Catch Up With The Latest News</h2>
+        <div id="carouselExampleControls" className="carousel slide" data-bs-ride="carousel">
+          <div className="carousel-inner">
+            {carouselImages.map((image, index) => (
+              <div className={`carousel-item ${index === 0 ? "active" : ""}`} key={index}>
+                <img src={image} className="d-block w-100" alt={`Slide ${index + 1}`} />
                 <div
-                  className={`carousel-item ${index === 0 ? "active" : ""}`}
-                  key={index}
+                  className="carousel-caption d-none d-md-block"
+                  style={{
+                    backgroundColor: carouselTexts[index]?.bgColor || 'rgba(0, 0, 0, 0.5)',
+                    color: carouselTexts[index]?.color || 'white'
+                  }}
                 >
-                  <img
-                    src={image}
-                    className="d-block w-100"
-                    alt={`Slide ${index + 1}`}
-                  />
+                  <h5>{carouselTexts[index]?.text || 'Default Text'}</h5>
                 </div>
-              ))}
-            </div>
-            <button
-              className="carousel-control-prev"
-              type="button"
-              data-bs-target="#carouselExampleControls"
-              data-bs-slide="prev"
-            >
-              <span
-                className="carousel-control-prev-icon"
-                aria-hidden="true"
-              ></span>
-              <span className="visually-hidden">Previous</span>
-            </button>
-            <button
-              className="carousel-control-next"
-              type="button"
-              data-bs-target="#carouselExampleControls"
-              data-bs-slide="next"
-            >
-              <span
-                className="carousel-control-next-icon"
-                aria-hidden="true"
-              ></span>
-              <span className="visually-hidden">Next</span>
-            </button>
+              </div>
+            ))}
           </div>
+          <button
+            className="carousel-control-prev"
+            type="button"
+            data-bs-target="#carouselExampleControls"
+            data-bs-slide="prev"
+          >
+            <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span className="visually-hidden">Previous</span>
+          </button>
+          <button
+            className="carousel-control-next"
+            type="button"
+            data-bs-target="#carouselExampleControls"
+            data-bs-slide="next"
+          >
+            <span className="carousel-control-next-icon" aria-hidden="true"></span>
+            <span className="visually-hidden">Next</span>
+          </button>
         </div>
-
+      </div>
         <div className="container">
           <h2 className="text-center title">
             News related to{" "}
