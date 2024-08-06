@@ -103,10 +103,7 @@ export class News extends Component {
         this.queryText = "";
         const { dispatch } = this.context;
         dispatch({ type: "SET_QUERY", payload: this.state.search });
-
-
-        
-      }else{
+      } else {
         this.queryText = data.state.query;
       }
       console.log("DATA---- in query", data);
@@ -166,24 +163,37 @@ export class News extends Component {
         noNewsFound: parsedData.results.length === 0,
       });
     } else {
+      this.setState({ loading: false, noNewsFound: true });
+      this.setCarouselImages([])
       console.error("Error fetching data:", parsedData.results.message);
     }
     this.props.setProgress(100);
   };
 
-
   setCarouselImages = (images) => {
     // Shuffle articles and pick the first 3 images
-    const shuffledArticles = images.sort(() => 0.5 - Math.random());
-    const carouselImages = shuffledArticles
-      .slice(0, 4)
-      .map(
+    if (images.length >= 4) {
+      const shuffledArticles = images.sort(() => 0.5 - Math.random());
+      const carouselImages = shuffledArticles
+        .slice(0, 4)
+        .map(
+          (article) =>
+            article.image_url ||
+            "https://www.algerie360.com/wp-content/uploads/2024/08/euro-devises-835x430.jpg"
+        );
+      this.setState({ carouselImages });
+    } else if(images.length==0){
+      const carouselImages = ['https://www.algerie360.com/wp-content/uploads/2024/08/euro-devises-835x430.jpg','https://about.fb.com/wp-content/uploads/2023/09/GettyImages-686732223.jpg']
+      this.setState({ carouselImages });
+
+    }else {
+      const carouselImages = images.map(
         (article) =>
           article.image_url ||
-          "https://via.placeholder.com/800x400?text=Default+Image"
+          "https://www.algerie360.com/wp-content/uploads/2024/08/euro-devises-835x430.jpg"
       );
-
-    this.setState({ carouselImages });
+      this.setState({ carouselImages });
+    }
   };
 
   render() {
@@ -209,7 +219,7 @@ export class News extends Component {
                     alt={`Slide ${index + 1}`}
                   />
                   <div
-                    className="carousel-caption d-none d-md-block"
+                    className="carousel-caption d-md-block"
                     style={{
                       backgroundColor:
                         carouselTexts[index]?.bgColor || "rgba(0, 0, 0, 0.5)",
@@ -247,7 +257,7 @@ export class News extends Component {
             </button>
           </div>
         </div>
-        <div className="" style={{paddingLeft:'70px', paddingRight:'70px'}}>
+        <div className="news-container">
           <h2 className="text-center title">
             News related to{" "}
             <strong>

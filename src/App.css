@@ -400,7 +400,13 @@
   text-align: center;
   max-width: 80%; /* Adjust max-width as needed */
 }
-.news-container{}
+
+
+
+.news-container{
+  padding-left: 70px;
+  padding-right: 70px;
+}
 
 /* Professional Font Styling */
 .carousel-caption h5 {
@@ -420,8 +426,32 @@
 
 @media (max-width: 576px) {
   .carousel-caption h5 {
-    font-size: 16px; /* Further adjust font size */
+    font-size: 12px; /* Further adjust font size */
     padding: 8px; /* Further adjust padding */
+  }
+  .carousel-caption {
+    position: absolute;
+    bottom: 20px; 
+    top: 100px;
+
+    /* left: 50%;
+    transform: translateX(-50%); */
+    background: rgba(0, 0, 0, 0.5); 
+    color: #fff; /* White text color */
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+    width: 80%;
+    /* max-width: 80%;  */
+  }
+
+  .carousel-wrapper{
+    margin-top: 30px !important;
+  }
+
+  .news-container{
+    padding-left: 10px;
+    padding-right: 10px;
   }
 }
 
